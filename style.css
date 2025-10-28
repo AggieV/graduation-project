@@ -1,0 +1,336 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: #81ebe0; 
+}
+
+h1 {
+    color: #4a148c; 
+}
+
+/* De container voor het bord */
+#board {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    position: relative; /* Cruciaal voor position: absolute van de pionnen */
+}
+
+/* Algemene stijl van een vakje */
+.vakje {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #333;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+    z-index: 1;
+    font-weight: bold;
+}
+
+/* Highlight/actieve staat */
+.highlighted {
+    background-color: #4a148c !important; 
+    color: white;
+    transform: scale(1.1); 
+    box-shadow: 0 0 10px rgba(74, 20, 140, 0.8);
+}
+
+/* Stijl voor speciale vakjes */
+.actie-vakje {
+    background-color: #ffcc00; 
+    border-color: #cc9900;
+}
+
+.uitdaging-vakje {
+    background-color: #e74c3c; 
+    border-color: #c0392b;
+    color: white;
+}
+
+/* ---------------- PIONNEN (MULTIPLAYER) ---------------- */
+
+/* Container voor alle pionnen */
+#board .pion_container {
+    width: 60px; 
+    height: 60px; 
+    position: absolute; 
+    z-index: 2; 
+    transition: left 0.5s ease-out, top 0.5s ease-out;
+}
+
+/* De individuele pion (Gecorrigeerd naar 25px) */
+.pion {
+    width: 5em; 
+    height: 5em;
+    border-radius: 50%;
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.2s;
+    border: 2px solid transparent; 
+}
+
+/* Unieke pionnen met achtergrondafbeelding en positionering binnen het vakje (60x60) */
+#pion-1 { 
+    background-image: url('images/pion1.png'); 
+    left: 0px;  /* LINKSBOVEN */
+    top: 0px;
+} 
+#pion-2 { 
+    background-image: url('images/pion2.png'); 
+    left: 35px; /* RECHTSBOVEN (60 - 25 = 35) */
+    top: 0px;   
+}
+#pion-3 { 
+    background-image: url('images/pion3.png'); 
+    left: 0px;
+    top: 35px;  /* LINKSONDER */
+}
+#pion-4 { 
+    background-image: url('images/pion4.png'); 
+    left: 35px;
+    top: 35px; /* RECHTSONDER */
+}
+
+/* Visuele indicatie welke speler aan de beurt is */
+.active-player-pion {
+    border: 2px solid gold; 
+    transform: scale(1.2);
+}
+
+/* ---------------- CONTROLS & DOBBELSTEEN ---------------- */
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Container voor het dobbelresultaat */
+#dobbel-resultaat-container {
+    height: 70px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* De dobbelsteenafbeelding */
+#dobbel-resultaat {
+    width: 70px; 
+    height: 70px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* De knop om te gooien */
+#dobbel-btn {
+    padding: 10px 20px; 
+    background-color: #4a148c; 
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.1s, transform 0.1s;
+    margin-top: 10px;
+}
+
+#dobbel-btn:hover {
+    background-color: #6a1b9a;
+    transform: scale(1.02);
+}
+
+
+/* ---------------- KAART OVERLAY ---------------- */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.card-popup {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    border: 5px solid #4a148c;
+}
+
+#card-content {
+    margin: 20px 0;
+    font-size: 1.1em;
+}
+
+#card-close-btn {
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #4a148c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#card-close-btn:hover {
+    background-color: #6a1b9a;
+}
+
+/* ========================================================== */
+/* ======== MEDIA QUERY VOOR MOBIELE APPARATEN (< 600px) ======== */
+/* ========================================================== */
+
+@media (max-width: 600px) {
+    
+    /* Maak het bord verticaal */
+    #board {
+        flex-direction: column;
+        gap: 5px; /* Minder ruimte tussen vakjes */
+        padding: 10px;
+        width: 90%; /* Vul de breedte van het scherm */
+        max-width: 150px; /* Beperk de breedte voor een mooie verticale kolom */
+    }
+
+    .vakje {
+        width: 100%; /* Vakjes vullen de breedte van het bord */
+        height: 50px; /* Iets kortere vakjes */
+        font-size: 0.9em;
+    }
+    
+    /* De pion container moet nu zijn breedte beperken tot het vakje */
+    #board .pion_container {
+        width: 100%; 
+        height: 50px; /* Moet nu matchen met de nieuwe vakje hoogte */
+    }
+    
+    /* De controls komen nu onder het smallere bord te staan */
+    .controls {
+        order: 2; /* Zorgt dat controls onder het bord komen, al is dit hier niet strikt nodig */
+    }
+}
+
+
+
+
+/* ---------------- OVERLAY BASISSTIJLEN ---------------- */
+
+/* De basis .overlay stijl die je al had, wordt hergebruikt voor zowel Kaart als Start */
+.overlay {
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Donkerder voor het startscherm */
+    display: none; /* Standaard verborgen */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* De Start Overlay is de enige die standaard zichtbaar moet zijn bij het laden */
+#start-overlay.active-overlay {
+    display: flex;
+}
+
+.start-popup {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(74, 20, 140, 0.8);
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    border: 5px solid #4a148c;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ---------------- ROL SELECTIE STIJLEN ---------------- */
+
+#player-selection {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.role-card {
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    width: 150px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.role-card:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.role-card h3 {
+    color: #4a148c;
+    margin: 10px 0 5px 0;
+}
+
+.selection-pion {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+/* Animatie voor de pop-up */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* MEDIA QUERY: Pas de grootte op mobiel aan */
+@media (max-width: 600px) {
+    .start-popup {
+        padding: 20px;
+        max-width: 95%;
+    }
+    
+    #player-selection {
+        gap: 10px;
+    }
+    
+    .role-card {
+        width: 45%; /* Twee kaarten naast elkaar */
+        padding: 10px;
+    }
+    .selection-pion {
+        width: 40px;
+        height: 40px;
+    }
+}
