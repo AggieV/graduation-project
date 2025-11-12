@@ -3,92 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Innovation Game Prototype</title>
+    <title>Innovation Game | Start</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Innovation road to Succes</h1>
+    <h1>Innovation Road to Success</h1>
 
-    <div id="start-overlay" class="overlay active-overlay">
-        <div class="start-popup">
-            <h2>Kies jouw Rol</h2>
-            <p>Selecteer een pion om je innovatierol te bepalen. De overige pionnen worden bestuurd door de computer.</p>
-            
-            <div id="player-selection">
-                <div class="role-card" data-role-id="1">
-                    <img src="images/pion1.png" alt="Technicus" class="selection-pion">
-                    <h3>Technicus</h3>
-                    <p>Focust op technische haalbaarheid.</p>
-                </div>
-
-                <div class="role-card" data-role-id="2">
-                    <img src="images/pion2.png" alt="Controleur" class="selection-pion">
-                    <h3>Controleur</h3>
-                    <p>Bewaakt kosten en risico's.</p>
-                </div>
-                
-                <div class="role-card" data-role-id="3">
-                    <img src="images/pion3.png" alt="Verbinder" class="selection-pion">
-                    <h3>Verbinder</h3>
-                    <p>Zorgt voor communicatie.</p>
-                </div>
-                
-                <div class="role-card" data-role-id="4">
-                    <img src="images/pion4.png" alt="Strateeg" class="selection-pion">
-                    <h3>Strateeg</h3>
-                    <p>Bepaalt de lange termijn visie.</p>
-                </div>
+    <div id="board">
+        <div class="space" id="space-0">0: START (Kies Focus)</div> 
+        <div class="space" id="space-1">1: Analyse (JTBD)</div>
+        <div class="space action-space" id="space-2">2: Validatie & Risico</div>
+        <div class="space challenge-space" id="space-3">3: MVP Oplevering</div>
+        <div class="space" id="space-4">4: Pivot Check</div>
+        <div class="space action-space" id="space-5">5: Marktstrategie</div>
+        <div class="space challenge-space" id="space-6">6: Implementatie</div>
+        <div class="space" id="space-7">7: Evaluatie (FINISH)</div>
+        
+      <div id="pawn-container">
+            <div class="pawn" id="pawn-1">
+                <img src="images/pion1.png" alt="Project Pion" class="pawn-image">
             </div>
         </div>
     </div>
-    
-    <div id="board">
-        <div class="vakje highlighted" id="vakje-1">1</div>
-        <div class="vakje" id="vakje-2">2</div>
-        <div class="vakje uitdaging-vakje" id="vakje-3">3 (Kaart)</div>
-        <div class="vakje" id="vakje-4">4</div>
-        <div class="vakje" id="vakje-5">5</div>
-        <div class="vakje actie-vakje" id="vakje-6">6 (Brug)</div>
-        <div class="vakje uitdaging-vakje" id="vakje-7">7 (Kaart)</div>
-        <div class="vakje" id="vakje-8">8</div>
-        <div class="vakje" id="vakje-9">9</div>
-        <div class="vakje" id="vakje-10">10 (Finish)</div>
-        
-        <div class="pion_container" id="pion-container-1">
-            <div class="pion" id="pion-1"></div>
-        </div>
-        <div class="pion_container" id="pion-container-2">
-            <div class="pion" id="pion-2"></div>
-        </div>
-        <div class="pion_container" id="pion-container-3">
-            <div class="pion" id="pion-3"></div>
-        </div>
-        <div class="pion_container" id="pion-container-4">
-            <div class="pion" id="pion-4"></div>
-        </div>
-        
-    </div>
 
     <div class="controls">
-        <div id="dobbel-resultaat-container">
-            <img id="dobbel-resultaat" src="images/dobbel-init.png" alt="Laatste worp" class="dobbel-resultaat-img">
-        </div>
+        <h2 id="current-position-display">VAK 0: START</h2>
         
-        <button id="dobbel-btn">Gooi de Dobbelsteen (1-3)</button>
-        
-        <p>Huidige Speler: <span id= "current-player-name">Technicus</span></p>
-        <p>Huidige Positie: <span id="current-position">1</span></p>
-        </div>
+        <button id="dice-btn" class="main-btn" disabled>DOBBELEN</button> 
+                
+        <p>Project: <span id="current-project-name">Nog niet gestart</span></p>
+        <p>Horizon: <span id="current-horizon">N/A</span></p>
+    </div>
 
-    <div id="card-overlay" class="overlay">
-        <div class="card-popup">
-            <h2>Uitdagingskaart!</h2>
-            <p id="card-content">Kaartinhoud...</p>
-            <button id="card-close-btn">Begrepen! Doorgaan</button>
+    <div id="start-overlay" class="overlay active">
+        <div class="popup">
+            <h2>Start Nieuw Project: Kies jouw Strategische Focus</h2>
+            <p>Jij als Innovatiemanager definieert de horizon, wat het pad en de focus van het project bepaalt.</p>
+            
+            <div id="horizon-selection">
+                <button class="horizon-btn" data-horizon="H1">H1: Optimalisatie (Winst)</button>
+                <button class="horizon-btn" data-horizon="H2">H2: Vernieuwing (Opschaling)</button>
+                <button class="horizon-btn" data-horizon="H3">H3: Disruptie (Zoeken)</button>
+            </div>
+            <p id="selected-horizon-info"></p>
+            <button id="start-project-btn" class="main-btn" disabled>Start Project</button>
+        </div>
+    </div>
+    
+    <!-- <div id="task-overlay" class="overlay">
+        <div class="popup card-popup">
+            <h2>Dwingende Opdracht</h2>
+            <p id="task-content">De opdracht voor Vak X...</p>
+            
+            <div id="decision-options">
+                </div>
+        </div>
+    </div> -->
+
+    <div id="task-overlay" class="overlay">
+        <div class="popup card-popup">
+            <h2>Dwingende Opdracht</h2>
+            <p id="task-content">De opdracht voor Vak X...</p>
+            
+            <div id="decision-options">
+                </div>
+
+            <button id="open-chatbot-btn" title="Vraag de AI om hulp/info">
+                <span style="font-size: 1.5em;">🤖</span> Chatbot
+            </button>
+        </div>
+    </div>
+    
+    <div id="chatbot-overlay" class="overlay hidden-overlay">
+        <div class="chatbot-popup">
+            <h3>Innovatie Assistent</h3>
+            <div id="chat-messages">
+                </div>
+            <div id="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Stel je vraag (bijv. 'JTBD' of 'risico')..."/>
+                <button id="chat-send-btn">Stuur</button>
+            </div>
+            <button id="close-chatbot-btn" class="main-btn">Sluiten</button>
         </div>
     </div>
 
-    <script src="scripts.js"></script>
+
+    <script src="script.js"></script>
 </body>
-</html>  
+</html>

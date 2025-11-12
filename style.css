@@ -3,113 +3,101 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    background-color: #81ebe0; 
+    gap: 30px;
+    background-color: #9ea6ab; 
+    color: #333;
 }
 
 h1 {
     color: #4a148c; 
 }
 
-/* De container voor het bord */
+/* ---------------- BORD & VAKJES ---------------- */
+
 #board {
     display: flex;
     gap: 10px;
     padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
+    border: 3px solid #ccc;
+    border-radius: 12px;
     background-color: white;
-    position: relative; /* Cruciaal voor position: absolute van de pionnen */
+    position: relative; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Algemene stijl van een vakje */
-.vakje {
-    width: 60px;
-    height: 60px;
+.space {
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 3px solid #333;
+    text-align: center;
+    font-size: 0.8em;
+    padding: 5px;
+    border: 3px solid #666;
     border-radius: 8px;
     background-color: #f0f0f0;
-    transition: background-color 0.3s ease, transform 0.3s ease; 
+    transition: all 0.3s ease; 
     z-index: 1;
     font-weight: bold;
+    cursor: default;
 }
 
-/* Highlight/actieve staat */
-.highlighted {
-    background-color: #4a148c !important; 
-    color: white;
-    transform: scale(1.1); 
-    box-shadow: 0 0 10px rgba(74, 20, 140, 0.8);
-}
-
-/* Stijl voor speciale vakjes */
-.actie-vakje {
+/* Speciale Vakjes */
+.action-space {
     background-color: #ffcc00; 
-    border-color: #cc9900;
 }
 
-.uitdaging-vakje {
+.challenge-space {
     background-color: #e74c3c; 
-    border-color: #c0392b;
     color: white;
 }
 
-/* ---------------- PIONNEN (MULTIPLAYER) ---------------- */
+.highlighted {
+    background-color: #4369ca !important; 
+    color: white !important;
+    transform: scale(1.05); 
+    box-shadow: 0 0 15px rgba(74, 20, 140, 0.8);
+}
 
-/* Container voor alle pionnen */
-#board .pion_container {
-    width: 60px; 
-    height: 60px; 
+/* ---------------- PION ---------------- */
+
+#pawn-container {
+    width: 80px; /* Moet overeenkomen met .space breedte */
+    height: 80px; /* Moet overeenkomen met .space hoogte */
     position: absolute; 
     z-index: 2; 
-    transition: left 0.5s ease-out, top 0.5s ease-out;
+    /* Snelle transitie voor soepele beweging */
+    transition: left 0.4s ease-in-out, top 0.4s ease-in-out; 
+    display: flex; /* Zorgt dat de afbeelding netjes in het midden staat */
+    justify-content: center;
+    align-items: center;
 }
 
-/* De individuele pion (Gecorrigeerd naar 25px) */
-.pion {
-    width: 5em; 
-    height: 5em;
+.pawn {
     border-radius: 50%;
     position: absolute;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: transform 0.2s;
-    border: 2px solid transparent; 
+    /* Gecentreerd in de 80x80 pion-container */
+    left: 15px; 
+    top: 15px;
+    background-color: #007bff; /* Blauwe pion (of gebruik image) */
+    border: 3px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    width: 100%; /* Neemt de volledige breedte van de container */
+    height: 100%; /* Neemt de volledige hoogte van de container */
+    display: flex; /* Centert de afbeelding binnen deze div */
+    justify-content: center;
+    align-items: center;
 }
 
-/* Unieke pionnen met achtergrondafbeelding en positionering binnen het vakje (60x60) */
-#pion-1 { 
-    background-image: url('images/pion1.png'); 
-    left: 0px;  /* LINKSBOVEN */
-    top: 0px;
-} 
-#pion-2 { 
-    background-image: url('images/pion2.png'); 
-    left: 35px; /* RECHTSBOVEN (60 - 25 = 35) */
-    top: 0px;   
-}
-#pion-3 { 
-    background-image: url('images/pion3.png'); 
-    left: 0px;
-    top: 35px;  /* LINKSONDER */
-}
-#pion-4 { 
-    background-image: url('images/pion4.png'); 
-    left: 35px;
-    top: 35px; /* RECHTSONDER */
+/* --- De Afbeelding van de Pion --- */
+.pawn-image {
+    max-width: 100%; /* Zorgt ervoor dat de afbeelding binnen de .pawn div blijft */
+    max-height: 100%; /* Zorgt ervoor dat de afbeelding binnen de .pawn div blijft */
+    object-fit: contain; /* Zorgt dat de afbeelding schaalt zonder te vervormen */
 }
 
-/* Visuele indicatie welke speler aan de beurt is */
-.active-player-pion {
-    border: 2px solid gold; 
-    transform: scale(1.2);
-}
-
-/* ---------------- CONTROLS & DOBBELSTEEN ---------------- */
+/* ---------------- CONTROLS & KNOPPEN ---------------- */
 
 .controls {
     display: flex;
@@ -118,44 +106,50 @@ h1 {
     gap: 15px;
 }
 
-/* Container voor het dobbelresultaat */
-#dobbel-resultaat-container {
-    height: 70px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* De dobbelsteenafbeelding */
-#dobbel-resultaat {
-    width: 70px; 
-    height: 70px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* De knop om te gooien */
-#dobbel-btn {
-    padding: 10px 20px; 
+.main-btn {
+    padding: 10px 25px; 
     background-color: #4a148c; 
     color: white;
-    font-size: 1em;
+    font-size: 1.1em;
     font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.1s, transform 0.1s;
-    margin-top: 10px;
 }
 
-#dobbel-btn:hover {
+.main-btn:hover:not(:disabled) {
     background-color: #6a1b9a;
     transform: scale(1.02);
 }
 
+.main-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
 
-/* ---------------- KAART OVERLAY ---------------- */
+/* Horizon Selectie */
+#horizon-selection {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.horizon-btn {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.horizon-btn.selected {
+    border: 3px solid #4a148c;
+    background-color: #e0f7fa;
+}
+
+
+/* ---------------- OVERLAYS & POPUPS ---------------- */
 
 .overlay {
     position: fixed;
@@ -163,174 +157,141 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     display: none; 
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-.card-popup {
+.overlay.active {
+    display: flex;
+}
+
+.popup {
     background: white;
-    padding: 30px;
+    padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
     width: 90%;
-    max-width: 450px;
+    max-width: 500px;
     text-align: center;
     border: 5px solid #4a148c;
 }
 
-#card-content {
-    margin: 20px 0;
-    font-size: 1.1em;
+.card-popup h2 {
+    color: #e74c3c;
 }
 
-#card-close-btn {
+#decision-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-top: 20px;
-    padding: 10px 25px;
+}
+
+.decision-btn {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.decision-btn:hover {
+    background-color: #0056b3;
+}
+
+/* ---------------- CHATBOT CHAT WINDOW STIJLEN ---------------- */
+
+.hidden-overlay {
+    display: none !important;
+}
+
+#open-chatbot-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    font-weight: bold;
+    z-index: 1010;
+}
+
+.chatbot-popup {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    width: 350px; /* Kleinere popup voor de chat */
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid #007bff;
+}
+
+#chat-messages {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    background-color: #e9eff5;
+}
+
+.chat-message {
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    max-width: 85%;
+    line-height: 1.4;
+}
+
+.bot-message {
+    background-color: #ffffff; /* Wit/Lichtgrijs */
+    color: #333;
+    align-self: flex-start;
+    border: 1px solid #ddd;
+}
+
+.user-message {
+    background-color: #d1e7dd; /* Lichtgroen */
+    color: #1b5e20;
+    align-self: flex-end;
+    text-align: right;
+}
+
+#chat-input-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+#chat-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    font-size: 1em;
+}
+
+#chat-send-btn {
+    padding: 8px 15px;
     background-color: #4a148c;
     color: white;
     border: none;
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s;
 }
 
-#card-close-btn:hover {
-    background-color: #6a1b9a;
-}
-
-/* ========================================================== */
-/* ======== MEDIA QUERY VOOR MOBIELE APPARATEN (< 600px) ======== */
-/* ========================================================== */
-
-@media (max-width: 600px) {
-    
-    /* Maak het bord verticaal */
-    #board {
-        flex-direction: column;
-        gap: 5px; /* Minder ruimte tussen vakjes */
-        padding: 10px;
-        width: 90%; /* Vul de breedte van het scherm */
-        max-width: 150px; /* Beperk de breedte voor een mooie verticale kolom */
-    }
-
-    .vakje {
-        width: 100%; /* Vakjes vullen de breedte van het bord */
-        height: 50px; /* Iets kortere vakjes */
-        font-size: 0.9em;
-    }
-    
-    /* De pion container moet nu zijn breedte beperken tot het vakje */
-    #board .pion_container {
-        width: 100%; 
-        height: 50px; /* Moet nu matchen met de nieuwe vakje hoogte */
-    }
-    
-    /* De controls komen nu onder het smallere bord te staan */
-    .controls {
-        order: 2; /* Zorgt dat controls onder het bord komen, al is dit hier niet strikt nodig */
-    }
-}
-
-
-
-
-/* ---------------- OVERLAY BASISSTIJLEN ---------------- */
-
-/* De basis .overlay stijl die je al had, wordt hergebruikt voor zowel Kaart als Start */
-.overlay {
-    position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* Donkerder voor het startscherm */
-    display: none; /* Standaard verborgen */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-/* De Start Overlay is de enige die standaard zichtbaar moet zijn bij het laden */
-#start-overlay.active-overlay {
-    display: flex;
-}
-
-.start-popup {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 40px rgba(74, 20, 140, 0.8);
-    width: 90%;
-    max-width: 800px;
-    text-align: center;
-    border: 5px solid #4a148c;
-    animation: fadeIn 0.5s ease-out;
-}
-
-/* ---------------- ROL SELECTIE STIJLEN ---------------- */
-
-#player-selection {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-}
-
-.role-card {
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 15px;
-    width: 150px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.role-card:hover {
-    background-color: #e0e0e0;
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.role-card h3 {
-    color: #4a148c;
-    margin: 10px 0 5px 0;
-}
-
-.selection-pion {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-}
-
-/* Animatie voor de pop-up */
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* MEDIA QUERY: Pas de grootte op mobiel aan */
-@media (max-width: 600px) {
-    .start-popup {
-        padding: 20px;
-        max-width: 95%;
-    }
-    
-    #player-selection {
-        gap: 10px;
-    }
-    
-    .role-card {
-        width: 45%; /* Twee kaarten naast elkaar */
-        padding: 10px;
-    }
-    .selection-pion {
-        width: 40px;
-        height: 40px;
-    }
+#close-chatbot-btn {
+    margin-top: 10px;
+    background-color: #6c757d;
 }
